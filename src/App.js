@@ -55,7 +55,30 @@ const App=()=> {
     }
 
   }
-  
+
+  const moveIntoSquareBelow=()=>{
+    for(let i=0;i<56;i++){
+      const firstRow=[0,1,2,3,4,5,6,7]
+      const isfirstRow=firstRow.includes(i)
+      if(isfirstRow&&currentColorArrangement[i]===''){
+        let randomNumber=Math.floor(Math.random()*candyColors.length)
+        currentColorArrangement[i]=candyColors[randomNumber]
+      }
+      if ((currentColorArrangement[i + width])==='') {
+        currentColorArrangement[i + width] = currentColorArrangement[i]
+        currentColorArrangement[i] = ''
+      }
+    }
+  }
+  const dragStart=()=>{
+    console.log('dragStart')
+  }
+  const dragDrop=()=>{
+    console.log('dragDrop')
+  }
+  const dragEnd=()=>{
+    console.log('dragEnd')
+  }
   const createBoard=()=>
   {  const randomColorArrangement=[]
     for(let i=0;i<width*width;i++){
@@ -74,13 +97,13 @@ const App=()=> {
         checkForColumnOfThree()
         checkForRowOfFour()
         checkForRowOfThree()
-    
+        moveIntoSquareBelow()
       setCurrentColorArrangement([...currentColorArrangement])
     },100)
     return()=> clearInterval(timer)
    
-  },[checkForColumnOfFour,checkForColumnOfThree,checkForRowOfFour,checkForRowOfThree,currentColorArrangement])
-  console.log(currentColorArrangement)
+  },[checkForColumnOfFour,checkForRowOfFour,checkForColumnOfThree,checkForRowOfThree, moveIntoSquareBelow,currentColorArrangement])
+ 
 
   return (
     <div className='app'>
@@ -89,6 +112,14 @@ const App=()=> {
          <img
          key={index}
          style={{backgroundColor:candyColor}}
+         data-id={index}
+         draggable={true}
+         onDragStart={dragStart}
+         onDragOver={(e) => e.preventDefault()}
+         onDragEnter={(e) => e.preventDefault()}
+         onDragLeave={(e) => e.preventDefault()}
+         onDrop={dragDrop}
+         onDragEnd={dragEnd}
         />
        ))}
      </div>
