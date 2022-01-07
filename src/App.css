@@ -1,6 +1,11 @@
+body{
+    background-color:#e5a4ac;
+}
 .app{
     display:flex;
+    flex-direction:column;
     padding:30px;
+    align-content: row-wrap;
 }
 @media screen and (min-width:480px){
 .game{
